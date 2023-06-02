@@ -1,0 +1,25 @@
+######################################################################
+
+### Incremental Synthesis
+######################################################################
+#master command
+syn_opt
+puts "Runtime & Memory after syn_opt"
+time_info INCREMENTAL
+generate_reports -outdir reports -tag incremental
+summary_table -outdir reports
+report timing -encounter >> reports/${DESIGN}_opt.rpt
+write_db -to_file ${DESIGN}_opt.db
+######################################################################
+### Dumping reports write Innovus file set (verilog, SDC, config,etc.)
+######################################################################
+report area > reports/${DESIGN}_area.rpt
+report datapath > reports/${DESIGN}_datapath_incr.rpt
+report messages > reports/${DESIGN}_messages.rpt
+report gates > reports/${DESIGN}_gates.rpt
+write_design -basename genus2invs/${DESIGN}_m
+write_hdl > genus2invs/${DESIGN}_m.v
+write_sdc > genus2invs/${DESIGN}_m.sdc
+puts "Final Runtime & Memory."
+time_info FINAL
+puts "============================"
